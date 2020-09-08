@@ -1,24 +1,26 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
 
 
-import time
-import requests
 from bs4 import BeautifulSoup
-import urllib
-from selenium import webdriver
+from datetime import datetime
+from datetime import timedelta
 from fake_useragent import UserAgent
-import numpy as np
-from operator import add
 from functools import reduce
-import re
+from operator import add
+import numpy as np
+import os
 import pandas as pd
+import psycopg2
+from sqlalchemy import create_engine
+import re
+import requests
+import time
+import urllib
 
 
 
-# In[2]:
+
+engine = create_engine("postgresql+psycopg2://dtqkynygrntpco:f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938@ec2-54-172-173-58.compute-1.amazonaws.com:5432/d3dk2h0pspg85c")
+                     
 
 
 delays = [7, 4, 6, 2, 10, 19]
@@ -30,7 +32,6 @@ ua = UserAgent()
 newjobs= []
 
 
-# In[3]:
 
 
 def link_parser(query):
@@ -58,7 +59,7 @@ def link_parser(query):
     return links
 
 
-# In[4]:
+# In[7]:
 
 
 def clean_links(links):
@@ -76,7 +77,7 @@ def clean_links(links):
     return clean_links
 
 
-# In[5]:
+# In[8]:
 
 
 def jobinfo(link):
@@ -90,95 +91,109 @@ def jobinfo(link):
         clean = re.compile('<.*?>')
         location = str(location)
         location = re.sub(clean, '', location)
+        location.strip('/n')
         
     return soup.title.get_text(), location, jl_url
 
 
-# In[6]:
+# In[9]:
 
 
-links_cleaned = clean_links(link_parser('"apply for this job" inurl:"lever.co"'))
+links_cleaned = clean_links(link_parser('"view all jobs" inurl:greenhouse.io'))
 print(links_cleaned)
 newjobs.append(links_cleaned)
 
 
 
-# In[7]:
+# In[10]:
 
 
 while len(links_cleaned) != 0:   
     delay = np.random.choice(delays)   
     results += 100
     print(results)
-    links_cleaned = clean_links(link_parser('"apply for this job" inurl:"lever.co"'))
+    links_cleaned = clean_links(link_parser('"view all jobs" inurl:greenhouse.io'))
     print(links_cleaned)
     newjobs.append(links_cleaned)
     print(delay)
     time.sleep(delay)
 
 
- 
+time.sleep(300)
+
+links_cleaned = clean_links(link_parser('"apply for this job" inurl:jobs.lever.co'))
+print(links_cleaned)
+newjobs.append(links_cleaned)
+
+
+
+# In[10]:
+
+
+while len(links_cleaned) != 0:   
+    delay = np.random.choice(delays)   
+    results += 100
+    print(results)
+    links_cleaned = clean_links(link_parser('"apply for this job" inurl:jobs.lever.co'))
+    print(links_cleaned)
+    newjobs.append(links_cleaned)
+    print(delay)
+    time.sleep(delay)
+
+
+
+
+
+# In[11]:
+
 
 newjobs = reduce(add, newjobs)
 len(newjobs)
 
 
-# In[ ]:
+# In[12]:
 
 
-
-
-
-# In[ ]:
-
-
-
+len(newjobs)
                                         
 
 
-# In[ ]:
+jobinfo(newjobs[8])
 
 
 
-
-
-# In[ ]:
-
-
-
-
-
-# In[8]:
-
-
-testdf = pd.DataFrame({"job" : [], "location" : [], "link" : []},
+testdf = pd.DataFrame({"time_added" : datetime.now,  "job" : [], "location" : [], "link" : []},
                      index =[])
 x=len(newjobs)
 i=0
-wtf = (jobinfo(newjobs[i]))
 while i<x:
     try:
+        delay = np.random.choice(delays) 
         print(jobinfo(newjobs[i]))
-        i+=1
         testdf.loc[i] = (jobinfo(newjobs[i]))
+        i+=1
+        #print(delay)
+        #time.sleep(delay)
 
     except:
+        i+=1
         continue
-
-
-# In[ ]:
 
 
 testdf
 
 
-# In[ ]:
+testdf.to_csv('joblist.csv')
 
 
-testdf.to_csv('export.csv')
+
+testdf.to_sql('joblist', con = engine, if_exists = 'append', chunksize = 1000)
 
 
-# In[ ]:
+testdf.to_json
+
+
+
 
 
 
