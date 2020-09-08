@@ -197,8 +197,7 @@ while len(links_cleaned) != 0:
     links_cleaned = clean_links(link_parser('"view all jobs" inurl:greenhouse.io'))
     print(links_cleaned)
     newjobs.append(links_cleaned)
-    print(delay)
-    time.sleep(delay)
+    time.sleep(3)
 
 
 
@@ -207,7 +206,7 @@ len(newjobs)
 
 
 
-testdf = pd.DataFrame({"ATS" : [], "Position" : [], "Company" : [], "Location":[], "Link" : [], "IsRemote" : [], "TimeScraped" : []},
+testdf = pd.DataFrame({"ats" : [], "position" : [], "company" : [], "location":[], "remote" : [], "link" : [], "added" : []},
                      index =[])
 x=len(newjobs)
 i=0
@@ -217,8 +216,8 @@ while i<x:
         print(jobinfo(newjobs[i]))
         testdf.loc[i] = (jobinfo(newjobs[i]))
         i+=1
-        print(delay)
-        time.sleep(delay)
+        #print(delay)
+        #time.sleep(delay)
 
     except:
         i+=1
