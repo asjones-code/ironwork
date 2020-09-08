@@ -206,7 +206,7 @@ len(newjobs)
 
 
 
-testdf = pd.DataFrame({{"ATS" : [], "Position" : [], "Company" : [], "Location":[], "Link" : [], "IsRemote" : [], "TimeScraped" : []},
+testdf = pd.DataFrame({"ATS" : [], "Position" : [], "Company" : [], "Location":[], "Link" : [], "IsRemote" : [], "TimeScraped" : []},
                      index =[])
 x=len(newjobs)
 i=0
