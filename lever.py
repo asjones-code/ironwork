@@ -1,6 +1,5 @@
-
-
-from bs4 import BeautifulSoup
+#packages
+bs4 import BeautifulSoup
 from datetime import datetime
 from datetime import timedelta
 from fake_useragent import UserAgent
@@ -18,8 +17,45 @@ import urllib
 
 
 
-
+#SQLALCHEMY
 engine = create_engine("postgresql+psycopg2://dtqkynygrntpco:f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938@ec2-54-172-173-58.compute-1.amazonaws.com:5432/d3dk2h0pspg85c")
+
+#PSYCOPG
+conn = psycopg2.connect(
+    """
+    dbname=d3dk2h0pspg85c 
+    host=ec2-54-172-173-58.compute-1.amazonaws.com 
+    port=5432 
+    user=dtqkynygrntpco 
+    password=f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938 
+    sslmode=require
+    """
+)
+
+
+conn.set_session(autocommit=True)
+cursor = conn.cursor()
+
+
+#Table is already made
+
+#query = """CREATE TABLE joblist
+#(
+#    index int NOT NULL PRIMARY KEY,
+#    ATS varchar NOT NULL,
+#    Position varchar NOT NULL, 
+#    Company varchar NOT NULL,
+#    Location varchar NOT NULL,
+#    Remote BOOLEAN NOT NULL,
+#    link varchar NOT NULL
+#    timestamp DATETIME NOT NULL
+    
+)
+#"""
+#cursor.execute(query)
+
+#ts = "ALTER TABLE joblist ADD COLUMN added timestamp with time zone NOT NULL;"
+#cursor.execute(ts)
                      
 
 
@@ -77,35 +113,79 @@ def clean_links(links):
     return clean_links
 
 
-# In[8]:
 
 
 def jobinfo(link):
+    isremote = False
     jl_url = link
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     response = requests.get(link, {"User-Agent": ua.random} )
     soup = BeautifulSoup(response.text, "html.parser")
     if "greenhouse" not in jl_url:
-        location = soup.find("div", {"class" : "sort-by-time posting-category medium-category-label"}).get_text()   
+        ATS = 'Lever'
+        company = (soup.title.get_text()).split(' - ')[0]
+        position = (soup.title.get_text()).split(' - ')[1]
+        if len(company) > 2:
+            position = position + " - " +((soup.title.get_text()).split(' - ')[2])
+            location = soup.find("div", {"class" : "sort-by-time posting-category medium-category-label"}).get_text()
+            location = location.replace('/',' ').strip()  
     else:
+        ATS = 'Greenhouse'
+        position =str(soup.title.get_text()).replace('Job Application for', '').strip()
+        company = str(position.split(' at ')[1]).strip()
+        position= str(position.split(' at ')[0]).strip()
         location = soup.find("div", {"class" : "location"})
         clean = re.compile('<.*?>')
         location = str(location)
         location = re.sub(clean, '', location)
-        location.strip('/n')
+        location = location.replace('\n',' ').strip()  
+    
+    if "remote" in location.lower():
+        isremote=True
+    else:
+        isremote=False
         
-    return soup.title.get_text(), location, jl_url
+    return ATS, position, company, location, jl_url, isremote, dt_string
 
 
-# In[9]:
 
+
+links_cleaned = clean_links(link_parser('"apply for this job" inurl:jobs.lever.co'))
+print(links_cleaned)
+newjobs.append(links_cleaned)
+
+print("first query complete. Please wait 90 seconds")
+time.sleep(90)
+
+while len(links_cleaned) != 0:   
+    delay = np.random.choice(delays)   
+    results += 100
+    print(results)
+    links_cleaned = clean_links(link_parser('"apply for this job" inurl:jobs.lever.co'))
+    print(links_cleaned)
+    newjobs.append(links_cleaned)
+    print(delay)
+    time.sleep(delay)
+
+
+print("Scrape Responsibly. Lets wait 5 minutes")
+time.sleep(60)
+print("Scrape Responsibly. Lets wait 4 minutes")
+time.sleep(60)
+print("Scrape Responsibly. Lets wait 3 minutes")
+time.sleep(60)
+print("Scrape Responsibly. Lets wait 2 minutes")
+time.sleep(60)
+print("Scrape Responsibly. Lets wait 1 minute")
+time.sleep(60)
 
 links_cleaned = clean_links(link_parser('"view all jobs" inurl:greenhouse.io'))
 print(links_cleaned)
 newjobs.append(links_cleaned)
 
-
-
-# In[10]:
+print("first query complete. Please wait 90 seconds")
+time.sleep(90)
 
 
 while len(links_cleaned) != 0:   
@@ -119,50 +199,14 @@ while len(links_cleaned) != 0:
     time.sleep(delay)
 
 
-time.sleep(300)
-
-links_cleaned = clean_links(link_parser('"apply for this job" inurl:jobs.lever.co'))
-print(links_cleaned)
-newjobs.append(links_cleaned)
-
-
-
-# In[10]:
-
-
-while len(links_cleaned) != 0:   
-    delay = np.random.choice(delays)   
-    results += 100
-    print(results)
-    links_cleaned = clean_links(link_parser('"apply for this job" inurl:jobs.lever.co'))
-    print(links_cleaned)
-    newjobs.append(links_cleaned)
-    print(delay)
-    time.sleep(delay)
-
-
-
-
-
-# In[11]:
-
 
 newjobs = reduce(add, newjobs)
+Print("total number of jobs posted in the last 24 hours:")
 len(newjobs)
 
 
-# In[12]:
 
-
-len(newjobs)
-                                        
-
-
-jobinfo(newjobs[8])
-
-
-
-testdf = pd.DataFrame({"time_added" : datetime.now,  "job" : [], "location" : [], "link" : []},
+testdf = pd.DataFrame({{"ATS" : [], "Position" : [], "Company" : [], "Location":[], "Link" : [], "IsRemote" : [], "TimeScraped" : []},
                      index =[])
 x=len(newjobs)
 i=0
@@ -172,25 +216,16 @@ while i<x:
         print(jobinfo(newjobs[i]))
         testdf.loc[i] = (jobinfo(newjobs[i]))
         i+=1
-        #print(delay)
-        #time.sleep(delay)
+        print(delay)
+        time.sleep(delay)
 
     except:
         i+=1
         continue
 
 
-testdf
-
-
-testdf.to_csv('joblist.csv')
-
-
-
 testdf.to_sql('joblist', con = engine, if_exists = 'append', chunksize = 1000)
 
-
-testdf.to_json
 
 
 
