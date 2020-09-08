@@ -180,6 +180,8 @@ time.sleep(60)
 print("Scrape Responsibly. Lets wait 1 minute")
 time.sleep(60)
 
+results=0
+
 links_cleaned = clean_links(link_parser('"view all jobs" inurl:greenhouse.io'))
 print(links_cleaned)
 newjobs.append(links_cleaned)
@@ -201,7 +203,6 @@ while len(links_cleaned) != 0:
 
 
 newjobs = reduce(add, newjobs)
-Print("total number of jobs posted in the last 24 hours:")
 len(newjobs)
 
 
