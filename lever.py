@@ -50,7 +50,7 @@ cursor = conn.cursor()
 #    link varchar NOT NULL
 #    timestamp DATETIME NOT NULL
     
-)
+#)
 #"""
 #cursor.execute(query)
 
