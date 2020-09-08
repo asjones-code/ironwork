@@ -1,5 +1,5 @@
 #packages
-bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 from datetime import datetime
 from datetime import timedelta
 from fake_useragent import UserAgent
