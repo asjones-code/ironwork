@@ -116,7 +116,7 @@ def clean_links(links):
 
 
 def jobinfo(link):
-    isremote = False
+    isremote = 0
     jl_url = link
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
@@ -142,9 +142,9 @@ def jobinfo(link):
         location = location.replace('\n',' ').strip()  
     
     if "remote" in location.lower():
-        isremote=True
+        isremote=1
     else:
-        isremote=False
+        isremote=0
         
     return ATS, position, company, location, jl_url, isremote, dt_string
 
@@ -206,7 +206,7 @@ len(newjobs)
 
 
 
-testdf = pd.DataFrame({"ats" : [], "position" : [], "company" : [], "location":[], "remote" : [], "link" : [], "added" : []},
+testdf = pd.DataFrame({"ats" : [], "position" : [], "company" : [], "location":[], "link" : [], "remote" : [], "added" : []},
                      index =[])
 x=len(newjobs)
 i=0
@@ -217,7 +217,7 @@ while i<x:
         testdf.loc[i] = (jobinfo(newjobs[i]))
         i+=1
         #print(delay)
-        #time.sleep(delay)
+        time.sleep(3)
 
     except:
         i+=1
