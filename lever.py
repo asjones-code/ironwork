@@ -222,9 +222,11 @@ while i<x:
     except:
         i+=1
         continue
+        
+testdf.reset_index()        
 
 
-testdf.to_sql('joblist', con = engine, if_exists = 'append', chunksize = 1000)
+testdf.to_sql('joblist', con = engine, if_exists = 'append', chunksize = 1000, index=False)
 
 
 
