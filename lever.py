@@ -59,7 +59,7 @@ cursor = conn.cursor()
                      
 
 
-delays = [7, 4, 6, 2, 10, 19]
+delays = [7, 4, 6, 2, 10, 13]
 delay = np.random.choice(delays)
 
 number_result=100
@@ -216,8 +216,8 @@ while i<x:
         print(jobinfo(newjobs[i]))
         testdf.loc[i] = (jobinfo(newjobs[i]))
         i+=1
-        #print(delay)
-        time.sleep(3)
+        print(delay)
+        time.sleep(delay)
 
     except:
         i+=1
