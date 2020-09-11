@@ -73,9 +73,9 @@ while x<len(companyinfo):
         
         time.sleep(scrapenice)
         diviz = x/5
-          if diviz.is_integer():
-              print ('pause for 2 min')
-              time.sleep(120)
+        if diviz.is_integer():
+            print ('pause for 2 min')
+            time.sleep(120)
         
         
 
