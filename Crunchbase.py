@@ -12,7 +12,7 @@ import os
 import time
 from sqlalchemy import create_engine
 
-waitarray = [3,5,7,9]
+waitarray = [3,5,7,9, 30]
 scrapenice = np.random.choice (waitarray)
 
 
