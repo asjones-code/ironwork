@@ -43,7 +43,6 @@ companyinfo= companyinfo.drop_duplicates()
 
 def crunchy(company):
     try:
-        driver = webdriver.Firefox(fp, options=opts)
         og = company
         company=company.replace(' ', '-')
         company=company.lower()
@@ -53,6 +52,7 @@ def crunchy(company):
         result_div = soup.find('p').get_text()    
     except AttributeError:
         result_div="not found on crunchbase"
+        driver.quit()
         
     return og, str(result_div)
     
