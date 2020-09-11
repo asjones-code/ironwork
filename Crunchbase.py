@@ -72,6 +72,11 @@ while x<len(companyinfo):
         print(companydf.loc[x])
         
         time.sleep(scrapenice)
+        diviz = x/5
+          if diviz.is_integer():
+              print ('pause for 2 min')
+              time.sleep(120)
+        
         
 
         x+=1
