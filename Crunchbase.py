@@ -2,8 +2,10 @@
 import numpy as np
 import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+#from selenium.webdriver.firefox.options import Options
+#from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import re
 import os
@@ -16,6 +18,17 @@ scrapenice = np.random.choice (waitarray)
 
 #SQLALCHEMY
 engine = create_engine("postgresql+psycopg2://dtqkynygrntpco:f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938@ec2-54-172-173-58.compute-1.amazonaws.com:5432/d3dk2h0pspg85c")
+
+
+
+
+options = FirefoxOptions()
+options.add_argument('--no-sandbox')
+options.add_argument("--headless")
+driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))
+
+
+
 
 
 global soup
