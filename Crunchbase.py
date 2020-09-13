@@ -58,8 +58,8 @@ def crunchy(company):
         print('Web driver shit')
         result_div="Error while scraping"
         time.sleep(60)
+        driver.quit()
         
-        continue
         
     return og, str(result_div)
     
