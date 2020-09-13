@@ -54,6 +54,12 @@ def crunchy(company):
     except AttributeError:
         result_div="not found on crunchbase"
         driver.quit()
+    except WebDriverException:
+        print('Web driver shit')
+        result_div="Error while scraping"
+        time.sleep(60)
+        
+        continue
         
     return og, str(result_div)
     
@@ -92,10 +98,7 @@ while x<len(companyinfo):
         print('FUCK! wait 5 minutes')
         time.sleep(300)
         continue
-    except WebDriverException:
-        print('Web driver shit')
-        time.sleep(60)
-        continue
+ 
         #companydf.loc[x] = (crunchy(companyinfo[x]))
         #print(companydf.loc[x])
         
