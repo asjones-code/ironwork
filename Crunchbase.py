@@ -26,7 +26,6 @@ engine = create_engine("postgresql+psycopg2://dtqkynygrntpco:f8b2d26aee326c186e7
 options = FirefoxOptions()
 options.add_argument('--no-sandbox')
 options.add_argument("--headless")
-driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))
 
 
 
@@ -44,10 +43,12 @@ companyinfo= companyinfo.drop_duplicates()
 
 def crunchy(company):
     try:
+        driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))
         og = company
         company=company.replace(' ', '-')
         company=company.lower()
         crunch_url="https://www.crunchbase.com/organization/" + company
+        time.sleep(5)
         driver.get(crunch_url)
         soup = BeautifulSoup(driver.page_source, 'lxml') 
         result_div = soup.find('p').get_text()    
@@ -59,6 +60,9 @@ def crunchy(company):
         result_div="Error while scraping"
         time.sleep(60)
         driver.close()
+    
+        
+        
         
         
     return og, str(result_div)
