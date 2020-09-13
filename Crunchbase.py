@@ -84,9 +84,9 @@ while x<len(companyinfo):
 
         
         
-    except KeyError:
-        x+=1
-        continue
+    #except KeyError:
+        #x+=1
+       # continue
     except ConnectionRefusedError:
         print('FUCK!')
         time.sleep(300)
