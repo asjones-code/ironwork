@@ -87,6 +87,20 @@ while x<len(companyinfo):
     except KeyError:
         x+=1
         continue
+    except NewConnectionError:
+        print('FUCK!')
+        time.sleep(300)
+        companydf.loc[x] = (crunchy(companyinfo[x]))
+        print(companydf.loc[x])
+        
+        time.sleep(scrapenice)
+        x+=1
+        diviz = x/4
+        if diviz.is_integer():
+            print ('pause for 2 min')
+            time.sleep(120)
+        
+        
 
 
 
