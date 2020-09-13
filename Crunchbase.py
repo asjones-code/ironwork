@@ -12,6 +12,7 @@ import re
 import os
 import time
 from sqlalchemy import create_engine
+from fp.fp import FreeProxy
 
 waitarray = [3,5,7,9, 30]
 scrapenice = np.random.choice (waitarray)
