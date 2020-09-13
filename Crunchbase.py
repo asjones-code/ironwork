@@ -67,13 +67,14 @@ x=0
 
 while x<len(companyinfo):
     try:
+        diviz = x/5
         time.sleep(scrapenice)
         companydf.loc[x] = (crunchy(companyinfo[x]))
         print(companydf.loc[x])
-        
         time.sleep(scrapenice)
         x+=1
-        diviz = x/5
+        print(x)
+        
         if diviz.is_integer():
             print ('pause for 2 min')
             time.sleep(120)
