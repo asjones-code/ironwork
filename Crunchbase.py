@@ -53,12 +53,12 @@ def crunchy(company):
         result_div = soup.find('p').get_text()    
     except AttributeError:
         result_div="not found on crunchbase"
-        driver.quit()
+        driver.close()
     except WebDriverException:
         print('Web driver shit')
         result_div="Error while scraping"
         time.sleep(60)
-        driver.quit()
+        driver.close()
         
         
     return og, str(result_div)
