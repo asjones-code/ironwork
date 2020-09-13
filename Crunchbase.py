@@ -84,11 +84,9 @@ while x<len(companyinfo):
 
         
         
-    #except KeyError:
-        #x+=1
-       # continue
-    except ConnectionRefusedError, KeyError:
-        print('FUCK!')
+   
+    except (ConnectionRefusedError, KeyError):
+        print('FUCK! got an error. Chill for 5 minutes)
         time.sleep(300)
         companydf.loc[x] = (crunchy(companyinfo[x]))
         print(companydf.loc[x])
