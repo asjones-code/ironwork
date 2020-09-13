@@ -91,6 +91,11 @@ while x<len(companyinfo):
     except ConnectionRefusedError:
         print('FUCK! wait 5 minutes')
         time.sleep(300)
+        continue
+    except WebDriverException:
+        print('Web driver shit')
+        time.sleep(60)
+        continue
         #companydf.loc[x] = (crunchy(companyinfo[x]))
         #print(companydf.loc[x])
         
