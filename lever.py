@@ -127,9 +127,14 @@ def jobinfo(link):
         company = (soup.title.get_text()).split(' - ')[0]
         position = (soup.title.get_text()).split(' - ')[1]
         if len(company) > 2:
-            position = position + " - " +((soup.title.get_text()).split(' - ')[2])
-            location = soup.find("div", {"class" : "sort-by-time posting-category medium-category-label"}).get_text()
-            location = location.replace('/',' ').strip()  
+            try:
+                position = position + " - " +((soup.title.get_text()).split(' - ')[2])
+                location = soup.find("div", {"class" : "sort-by-time posting-category medium-category-label"}).get_text()
+                location = location.replace('/',' ').strip()  
+            except IndexError:
+                location = soup.find("div", {"class" : "sort-by-time posting-category medium-category-label"}).get_text()
+                location = location.replace('/',' ').strip() 
+                pass
     else:
         ATS = 'Greenhouse'
         position =str(soup.title.get_text()).replace('Job Application for', '').strip()
@@ -225,7 +230,7 @@ while i<x:
         
 testdf.reset_index()        
 
-
+testdf['added'] = pd.to_datetime(testdf.added)
 testdf.to_sql('joblist', con = engine, if_exists = 'append', chunksize = 1000, index=False)
 
 
