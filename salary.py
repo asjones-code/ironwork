@@ -115,8 +115,7 @@ def clean_links(links):
 # In[9]:
 
 
-gdlink = link_parser(positions[3] + 'glassdoor')
-clean_links(gdlink)[3]
+
 
 
 # In[10]:
@@ -147,7 +146,7 @@ def glassy(url, x):
 # In[11]:
 
 
-glassy(clean_links(gdlink)[0], 0)
+
 
 
 # In[ ]:
@@ -156,7 +155,8 @@ glassy(clean_links(gdlink)[0], 0)
 w=0
 while w<5:
     try:
-        todf = glassy(clean_links(gdlink)[w], w)
+        gdlink = link_parser(positions[w] + 'glassdoor')
+        todf = glassy(clean_links(gdlink)[0], w)
         print(todf)
         salarydata[w] = todf
         print('wait vvvv seconds')
