@@ -2,10 +2,16 @@ import pandas as pd
 import numpy as np
 import time
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+
+
 from bs4 import BeautifulSoup
 import re
+
+options = FirefoxOptions()
+options.add_argument('--no-sandbox')
+options.add_argument("--headless")
 
 waitarray = [3,5,7,9, 30]
 waitless = [3,5,7,9]
@@ -32,7 +38,7 @@ missing = np.setdiff1d(totalcompany, companyarray, assume_unique=True)
 
 def crunchy(company):
     try:
-        driver = webdriver.Firefox(fp, options=opts)
+        driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))
         og = company
         company=company.replace(' ', '-')
         company=company.lower()
