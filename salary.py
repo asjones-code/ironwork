@@ -8,8 +8,8 @@ import pandas as pd
 import numpy as np
 import time
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from bs4 import BeautifulSoup
 import re
 from fake_useragent import UserAgent
@@ -27,10 +27,9 @@ newjobs= []
 scrapenice = np.random.choice (waitarray)
 scrapefast = np.random.choice (waitless)
 
-opts = Options()
-opts.headless = True
-fp = webdriver.FirefoxProfile()
-driver = webdriver.Firefox(fp, options=opts)
+options = FirefoxOptions()
+options.add_argument('--no-sandbox')
+options.add_argument("--headless")
 
 companyarray = pd.read_sql_table('companylist', 'postgres://dtqkynygrntpco:f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938@ec2-54-172-173-58.compute-1.amazonaws.com:5432/d3dk2h0pspg85c')  
 totalcompany = pd.read_sql_table('joblist', 'postgres://dtqkynygrntpco:f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938@ec2-54-172-173-58.compute-1.amazonaws.com:5432/d3dk2h0pspg85c')  
@@ -126,7 +125,7 @@ clean_links(gdlink)[3]
 def glassy(url, x):
     try:
         title =positions[x]
-        driver = webdriver.Firefox(fp, options=opts)       
+        driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))      
         driver.get(url)
         soup = BeautifulSoup(driver.page_source, 'lxml')
         salary = soup.find("p", {"class": "css-oaxin6 my-0"}).get_text()
