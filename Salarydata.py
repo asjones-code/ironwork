@@ -159,7 +159,7 @@ salarytodb = pd.DataFrame({"position" : [], "salary" : []},
 # In[31]:
 
 
-w=0
+global w=0
 y= len(update_job_title_list)
 while w < y: 
     try:
