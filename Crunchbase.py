@@ -97,7 +97,7 @@ def crunchy(company):
         company=company.replace(' ', '-')
         company=company.lower()
         crunch_url="https://www.crunchbase.com/organization/" + company
-        driver.get(crunch_url)
+            .get(crunch_url)
         soup = BeautifulSoup(driver.page_source, 'lxml') 
         result_div = soup.find('p').get_text()   
         employees = soup.find("a", {"class" : "component--field-formatter field-type-enum link-accent ng-star-inserted"}).get_text()
@@ -156,7 +156,8 @@ while z<len(update_company_title_list):
         print('FUCK! wait 5 minutes')
         time.sleep(300)
         continue
- 
+    except WebDriverException:
+        break
         #companydf.loc[x] = (crunchy(companyinfo[x]))
         #print(companydf.loc[x])
         
