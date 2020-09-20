@@ -92,7 +92,7 @@ def clean_links(links):
 
 def crunchy(company):
     try:
-        driver = webdriver.Firefox(fp, options=opts)
+        driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))      
         og = company
         company=company.replace(' ', '-')
         company=company.lower()
