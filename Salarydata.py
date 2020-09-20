@@ -177,6 +177,8 @@ while w < y:
         delay = np.random.choice(delays)
         print(update_job_title_list[w])
         gdlink = link_parser(update_job_title_list[w] + ' inurl:glassdoor.com/Salaries/')
+        print(gdlink)
+        
         todf = glassdoor_salary_tool(clean_links(gdlink)[0], w)
         print(todf)
         salarytodb.loc[w] = todf
