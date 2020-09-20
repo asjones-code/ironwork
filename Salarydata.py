@@ -172,8 +172,8 @@ y= len(update_job_title_list)
 while w < y: 
     try:
         print(str(w) + "out of" + str(y))
-        #delays = [7, 4, 6, 2, 15]
-        #delay = np.random.choice(delays)
+        delays = [4, 2]
+        delay = np.random.choice(delays)
         print(update_job_title_list[w])
         gdlink = link_parser(update_job_title_list[w] + ' inurl:glassdoor.com/Salaries/')
         todf = glassdoor_salary_tool(clean_links(gdlink)[0], w)
@@ -183,9 +183,9 @@ while w < y:
         #time.sleep(delay)
        
     except :
-        #print('Attribute error - empty salary')
-        #print('wait ' + str(delay) + ' seconds')
-        #time.sleep(delay)
+        print('Attribute error - empty salary')
+        print('wait ' + str(delay) + ' seconds')
+        time.sleep(delay)
         w+=1
         pass
         
