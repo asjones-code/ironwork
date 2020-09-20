@@ -169,29 +169,29 @@ salarytodb = pd.DataFrame({"position" : [], "salary" : []},
 # In[31]:
 
 
-w=0
+w=2
 y= len(update_job_title_list)
 while w < y: 
-    try:
-        print(str(w) + "out of" + str(y))
-        delays = [4, 2]
-        delay = np.random.choice(delays)
-        print(update_job_title_list[w])
-        gdlink = link_parser(update_job_title_list[w] + ' inurl:glassdoor.com/Salaries/')
-        print(gdlink)
+    #try:
+    print(str(w) + "out of" + str(y))
+    delays = [4, 2]
+    delay = np.random.choice(delays)
+    print(update_job_title_list[w])
+    gdlink = link_parser(update_job_title_list[w] + ' inurl:glassdoor.com/Salaries/')
+    print(gdlink)
         
-        todf = glassdoor_salary_tool(gdlink, w)
-        print(todf)
-        salarytodb.loc[w] = todf
+    todf = glassdoor_salary_tool(gdlink, w)
+    print(todf)
+    salarytodb.loc[w] = todf
         #print('wait ' + str(delay) + ' seconds')
         #time.sleep(delay)
        
-    except :
-        print('Attribute error - empty salary')
-        print('wait ' + str(delay) + ' seconds')
-        time.sleep(delay)
-        w+=1
-        pass
+    #except :
+        #print('Attribute error - empty salary')
+        #print('wait ' + str(delay) + ' seconds')
+        #time.sleep(delay)
+        #w+=1
+        #pass
         
         
 
