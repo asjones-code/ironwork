@@ -39,6 +39,16 @@ global soup
 
 #Settings for your headless browser (Firefox/Selenium)
 
+from fake_useragent import UserAgent
+import requests
+
+delays = [7, 4, 6, 2, 10, 13]
+delay = np.random.choice(delays)
+
+number_result=3
+ua = UserAgent()
+
+
 def link_parser(query):
     global results
 
