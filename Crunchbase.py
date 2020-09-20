@@ -156,8 +156,7 @@ while z<len(update_company_title_list):
         print('FUCK! wait 5 minutes')
         time.sleep(300)
         continue
-    except WebDriverException:
-        break
+   
         #companydf.loc[x] = (crunchy(companyinfo[x]))
         #print(companydf.loc[x])
         

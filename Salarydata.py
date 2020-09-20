@@ -71,27 +71,35 @@ options.add_argument("--headless")
 
 def link_parser(query):
     global results
+    driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))      
+    duck_url = "https://duckduckgo.com/?q=!glassdoor.com%2FSalaries%2F+" + query  +"&t=h_&ia=web"
+    response = driver.get(duck_url)
+    soup = BeautifulSoup(driver.page_source, 'lxml')
+    
+    
+    
 
 
-    google_url = "https://www.google.com/search?q=" + query + "&num=" + str(number_result) 
-
-    response = requests.get(google_url, {"User-Agent": ua.random})
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    links = []
-    result_div = soup.find_all('div', attrs = {'class': 'ZINbbc'})
-    for r in result_div:
+    #google_url = "https://www.google.com/search?q=" + query + "&num=" + str(number_result) 
+    #response = requests.get(google_url, {"User-Agent": ua.random})
+    #soup = BeautifulSoup(response.text, "html.parser")
+    #links = []
+    #result_div = soup.find_all('div', attrs = {'class': 'ZINbbc'})
+    #for r in result_div:
     # Checks if each element is present, else, raise exception
-        try:
-            link = r.find('a', href = True)
+        #try:
+            #link = r.find('a', href = True)
         
             # Check to make sure everything is present before appending
-            if link != '' :
-                links.append(link['href'])
+            #if link != '' :
+                #links.append(link['href'])
         # Next loop if one element is not present
-        except:
-            continue
-    return links
+        #except:
+            #continue
+    driver.close()
+    #soup.prettify
+    return href
+    #return links
 
 #cleans google results
 
@@ -122,8 +130,8 @@ def glassdoor_salary_tool(url, x):
         salary = soup.find("p", {"class": "css-oaxin6 my-0"}).get_text()
         salary = re.findall('\$\d+,\d+', salary)[0]
         salary = str(salary)
-        salary = salary.replace('[', ' ')
-        salary = salary.replace(']', ' ')
+        #salary = salary.replace('[', ' ')
+        #salary = salary.replace(']', ' ')
 
     except AttributeError:
         print('no Salary found')
@@ -164,20 +172,20 @@ y= len(update_job_title_list)
 while w < y: 
     try:
         print(str(w) + "out of" + str(y))
-        delays = [7, 4, 6, 2, 15]
-        delay = np.random.choice(delays)
+        #delays = [7, 4, 6, 2, 15]
+        #delay = np.random.choice(delays)
         print(update_job_title_list[w])
         gdlink = link_parser(update_job_title_list[w] + ' inurl:glassdoor.com/Salaries/')
         todf = glassdoor_salary_tool(clean_links(gdlink)[0], w)
         print(todf)
         salarytodb.loc[w] = todf
-        print('wait ' + str(delay) + ' seconds')
-        time.sleep(delay)
+        #print('wait ' + str(delay) + ' seconds')
+        #time.sleep(delay)
        
     except :
-        print('Attribute error - empty salary')
-        print('wait ' + str(delay) + ' seconds')
-        time.sleep(delay)
+        #print('Attribute error - empty salary')
+        #print('wait ' + str(delay) + ' seconds')
+        #time.sleep(delay)
         w+=1
         pass
         
