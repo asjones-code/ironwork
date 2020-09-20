@@ -180,7 +180,7 @@ while w < y:
         gdlink = link_parser(update_job_title_list[w] + ' inurl:glassdoor.com/Salaries/')
         print(gdlink)
         
-        todf = glassdoor_salary_tool(clean_links(gdlink)[0], w)
+        todf = glassdoor_salary_tool(gdlink, w)
         print(todf)
         salarytodb.loc[w] = todf
         #print('wait ' + str(delay) + ' seconds')
