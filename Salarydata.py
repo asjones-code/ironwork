@@ -76,7 +76,8 @@ def link_parser(query):
     duck_url = "https://duckduckgo.com/?q=!glassdoor.com%2FSalaries%2F+" + query  +"&t=h_&ia=web"
     response = driver.get(duck_url)
     soup = BeautifulSoup(driver.page_source, 'lxml')
-    
+    result_link = soup.find_all('a', attrs = {'class': 'result__a'})[0]
+    href = result_link.attrs.get("href")
     
     
 
