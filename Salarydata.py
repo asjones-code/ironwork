@@ -128,7 +128,8 @@ def glassdoor_salary_tool(url, x):
     position =update_job_title_list[x]
     driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))      
     driver.get(url)
-    soup = BeautifulSoup(driver.page_source, 'lxml')
+    soup = BeautifulSoup(driver.page_source, 'html' )
+    #'lxml'
     soup.prettify()
     #salary = soup.find("p", {"class": "css-oaxin6 my-0"}).get_text()
     #salary = re.findall('\$\d+,\d+', salary)[0]
