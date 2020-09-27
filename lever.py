@@ -18,7 +18,7 @@ import urllib
 
 
 #SQLALCHEMY
-engine = create_engine("postgresql+psycopg2://dtqkynygrntpco:f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938@ec2-54-172-173-58.compute-1.amazonaws.com:5432/d3dk2h0pspg85c")
+engine = create_engine(ENGINE)
 
 #PSYCOPG
 conn = psycopg2.connect(
