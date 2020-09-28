@@ -18,6 +18,7 @@ import urllib
 
 
 #SQLALCHEMY
+ENGINE_URL = os.environ['ENGINE_URL']
 engine = create_engine(ENGINE_URL)
 
 #PSYCOPG
