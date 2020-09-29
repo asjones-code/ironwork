@@ -128,21 +128,19 @@ def glassdoor_salary_tool(url, x):
     position =update_job_title_list[x]
     driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))      
     driver.get(url)
-    soup = BeautifulSoup(driver.page_source, 'html' )
-    #'lxml'
-    soup.prettify()
-    #salary = soup.find("p", {"class": "css-oaxin6 my-0"}).get_text()
-    #salary = re.findall('\$\d+,\d+', salary)[0]
-    #salary = str(salary)
-        #salary = salary.replace('[', ' ')
-        #salary = salary.replace(']', ' ')
+    soup = BeautifulSoup(driver.page_source, 'lxml')
+    salary = soup.find("p", {"class": "css-oaxin6 my-0"}).get_text()
+    salary = re.findall('\$\d+,\d+', salary)[0]
+    salary = str(salary)
+            #salary = salary.replace('[', ' ')
+            #salary = salary.replace(']', ' ')
 
-    #except AttributeError:
-        #print('no Salary found')
-        #pass
-    driver.close() 
+        except AttributeError:
+            print('no Salary found')
+            pass
+        driver.close() 
 
-    return soup #position, salary
+        return position, salary
 
 
 # # Step 3:
@@ -153,7 +151,8 @@ def glassdoor_salary_tool(url, x):
 
 salarytodb = pd.DataFrame({"position" : [], "salary" : []},
                      index =[])
-
+salarylinks = pd.DataFrame({"position" : [], "link" : []},
+                     index =[])
 
 # In[73]:
 
@@ -169,32 +168,69 @@ salarytodb = pd.DataFrame({"position" : [], "salary" : []},
 
 
 # In[31]:
-
-
-w=2
+gdlinkarray=[]
+w=0
 y= len(update_job_title_list)
-while w < y: 
-    #try:
-    print(str(w) + "out of" + str(y))
-    delays = [4, 2]
-    delay = np.random.choice(delays)
-    print(update_job_title_list[w])
-    gdlink = link_parser(update_job_title_list[w] + ' inurl:glassdoor.com/Salaries/')
-    print(gdlink)
-        
-    todf = glassdoor_salary_tool(gdlink, w)
-    print(todf)
-    salarytodb.loc[w] = todf
+while w < len(update_job_title_list): 
+    try:
+        print(str(w) + "out of" + str(y))
+        #delays = [7, 4, 6, 2]
+        #delay = np.random.choice(delays)
+        print(update_job_title_list[w])
+        gdlink = link_parser(update_job_title_list[w])
+        print(gdlink)
+        gdlinkarray.append(gdlink)
+        #todf = glassdoor_salary_tool((link_parser(update_job_title_list[w])), w)
+        #print(todf)
+        #salarytodb.loc[w] = todf
         #print('wait ' + str(delay) + ' seconds')
         #time.sleep(delay)
-       
-    #except :
+        w+=1
+        
+    
+    except KeyboardInterrupt:
+        break
+    except:
         #print('Attribute error - empty salary')
         #print('wait ' + str(delay) + ' seconds')
         #time.sleep(delay)
-        #w+=1
-        #pass
+        w+=1
+        continue
         
+
+        
+salarylinks.position = update_job_title_list
+salarylinks.link = gdlinkarray        
+
+
+w=0
+y= len(update_job_title_list)
+while w < y: 
+    try:
+        print(str(w) + "out of" + str(y))
+        #delays = [7, 4, 6, 2]
+        #delay = np.random.choice(delays)
+        print(salarylinks.position[w])
+        gdlink = link_parser(salarylinks.link[w])
+        print(gdlink)
+        #gdlinkarray.append(gdlink)
+        todf = glassdoor_salary_tool(link_parser(salarylinks.link[w]), w)
+        print(todf)
+        salarytodb.loc[w] = todf
+        #print('wait ' + str(delay) + ' seconds')
+        #time.sleep(delay)
+        w+=1
+        
+    
+    except KeyboardInterrupt:
+        break
+    except:
+        #print('Attribute error - empty salary')
+        #print('wait ' + str(delay) + ' seconds')
+        #time.sleep(delay)
+        print('oops')
+        w+=1
+        continue
         
 
 
