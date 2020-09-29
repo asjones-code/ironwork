@@ -124,23 +124,23 @@ def clean_links(links):
 
 
 def glassdoor_salary_tool(url, x):
-    #try:
-    position =update_job_title_list[x]
-    driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))      
-    driver.get(url)
-    soup = BeautifulSoup(driver.page_source, 'lxml')
-    salary = soup.find("p", {"class": "css-oaxin6 my-0"}).get_text()
-    salary = re.findall('\$\d+,\d+', salary)[0]
-    salary = str(salary)
+    try:
+        position =update_job_title_list[x]
+        driver = webdriver.Firefox(options=options, executable_path=os.environ.get("GECKODRIVER_PATH"),firefox_binary=os.environ.get("FIREFOX_BIN"))      
+        driver.get(url)
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        salary = soup.find("p", {"class": "css-oaxin6 my-0"}).get_text()
+        salary = re.findall('\$\d+,\d+', salary)[0]
+        salary = str(salary)
             #salary = salary.replace('[', ' ')
             #salary = salary.replace(']', ' ')
 
-        except AttributeError:
-            print('no Salary found')
-            pass
-        driver.close() 
+    except AttributeError:
+        print('no Salary found')
+        pass
+    driver.close() 
 
-        return position, salary
+    return position, salary
 
 
 # # Step 3:
@@ -230,7 +230,7 @@ while w < y:
         #time.sleep(delay)
         print('oops')
         w+=1
-        continue
+        git continue
         
 
 
