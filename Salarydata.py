@@ -230,7 +230,7 @@ while w < y:
         #time.sleep(delay)
         print('oops')
         w+=1
-        git continue
+        continue
         
 
 
