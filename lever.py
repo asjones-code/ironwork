@@ -19,18 +19,12 @@ import urllib
 
 #SQLALCHEMY
 ENGINE_URL = os.environ['ENGINE_URL']
+PSYCOPG = os.environ['PSYCOPG']
 engine = create_engine(ENGINE_URL)
 
 #PSYCOPG
 conn = psycopg2.connect(
-    """
-    dbname=d3dk2h0pspg85c 
-    host=ec2-54-172-173-58.compute-1.amazonaws.com 
-    port=5432 
-    user=dtqkynygrntpco 
-    password=f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938 
-    sslmode=require
-    """
+   PSYCOPG
 )
 
 
