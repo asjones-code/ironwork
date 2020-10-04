@@ -23,9 +23,7 @@ PSYCOPG = os.environ['PSYCOPG']
 engine = create_engine(ENGINE_URL)
 
 #PSYCOPG
-conn = psycopg2.connect(
-   PSYCOPG
-)
+conn = psycopg2.connect(PSYCOPG)
 
 
 conn.set_session(autocommit=True)
