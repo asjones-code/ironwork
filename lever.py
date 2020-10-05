@@ -112,7 +112,7 @@ def jobinfo(link):
     isremote = 0
     jl_url = link
     now = datetime.now()
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    dt_string = now.strftime("%Y/%m/%d")
     response = requests.get(link, {"User-Agent": ua.random} )
     soup = BeautifulSoup(response.text, "html.parser")
     if "greenhouse" not in jl_url:
@@ -204,7 +204,7 @@ len(newjobs)
 
 
 
-testdf = pd.DataFrame({"ats" : [], "position" : [], "company" : [], "location":[], "link" : [], "remote" : [], "added" : []},
+testdf = pd.DataFrame({"ats" : [], "position" : [], "company" : [], "location":[], "link" : [], "remote" : [], "date" : []},
                      index =[])
 x=len(newjobs)
 i=0
@@ -223,7 +223,8 @@ while i<x:
         
 testdf.reset_index()        
 
-testdf['added'] = pd.to_datetime(testdf.added)
+testdf['date'] = testdf['date'].dt.date
+#pd.to_datetime(testdf.added)
 testdf.to_sql('joblist', con = engine, if_exists = 'append', chunksize = 1000, index=False)
 
 
