@@ -223,8 +223,8 @@ while i<x:
         
 testdf.reset_index()        
 
-testdf['date'] = testdf['date'].dt.date
-#pd.to_datetime(testdf.added)
+#testdf['date'] = testdf['date'].dt.date
+pd.to_datetime(testdf.date)
 testdf.to_sql('joblist', con = engine, if_exists = 'append', chunksize = 1000, index=False)
 
 
