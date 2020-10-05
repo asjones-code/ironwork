@@ -231,6 +231,3 @@ testdf.to_sql('joblist', con = engine, if_exists = 'append', chunksize = 1000, i
 
 
 
-
-
-
