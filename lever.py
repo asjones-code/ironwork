@@ -228,7 +228,7 @@ pd.to_datetime(testdf.date)
 testdf.to_sql('joblist', con = engine, if_exists = 'append', chunksize = 1000, index=False)
 
 
-
+ss
 
 
 
