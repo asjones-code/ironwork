@@ -19,10 +19,7 @@ waitless = [3,5]
 scrapenice = np.random.choice (waitarray)
 scrapefast = np.random.choice (waitless)
 
-opts = Options()
-opts.headless = True
-fp = webdriver.FirefoxProfile()
-driver = webdriver.Firefox(fp, options=opts)
+
 
 HEROKU_POSTGRESQL_MAROON_URL = os.environ['HEROKU_POSTGRESQL_MAROON_URL']
 
