@@ -13,8 +13,8 @@ options = FirefoxOptions()
 options.add_argument('--no-sandbox')
 options.add_argument("--headless")
 
-waitarray = [3,5,7,9, 30]
-waitless = [3,5,7,9]
+waitarray = [3,5,7]
+waitless = [3,5]
 
 scrapenice = np.random.choice (waitarray)
 scrapefast = np.random.choice (waitless)
@@ -24,8 +24,11 @@ opts.headless = True
 fp = webdriver.FirefoxProfile()
 driver = webdriver.Firefox(fp, options=opts)
 
-companyarray = pd.read_sql_table('companylist', 'postgres://dtqkynygrntpco:f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938@ec2-54-172-173-58.compute-1.amazonaws.com:5432/d3dk2h0pspg85c')  
-totalcompany = pd.read_sql_table('joblist', 'postgres://dtqkynygrntpco:f8b2d26aee326c186e71fcc28ffad460d698d06e4456c41b75ffa4b315750938@ec2-54-172-173-58.compute-1.amazonaws.com:5432/d3dk2h0pspg85c')  
+HEROKU_POSTGRESQL_MAROON_URL = os.environ['HEROKU_POSTGRESQL_MAROON_URL']
+
+
+companyarray = pd.read_sql_table('companylist', HEROKU_POSTGRESQL_MAROON_URL)  
+totalcompany = pd.read_sql_table('joblist', HEROKU_POSTGRESQL_MAROON_URL)  
 
 
 totalcompany= totalcompany['company']
