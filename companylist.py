@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import os
 import time
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
